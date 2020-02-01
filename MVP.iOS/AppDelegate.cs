@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Foundation;
+using Shiny;
+using Shiny.Jobs;
 using UIKit;
 
 namespace MVP.iOS
@@ -22,11 +24,16 @@ namespace MVP.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            iOSShinyHost.Init(new Startup());
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
         }
+
+
+        public override void PerformFetch(UIApplication application, Action<UIBackgroundFetchResult> completionHandler)
+            => JobManager.OnBackgroundFetch(completionHandler);
     }
 }
